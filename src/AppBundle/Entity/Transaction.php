@@ -38,14 +38,14 @@ class Transaction
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedAt", type="datetimetz")
+     * @ORM\Column(name="updatedAt", type="datetime")
      */
     private $updatedAt;
 
     /**
-     * @var \stdClass
+     * @var Category
      *
-     * @ORM\Column(name="category", type="object")
+     * @ORM\ManyToOne(targetEntity="Category")
      */
     private $category;
 
@@ -76,6 +76,23 @@ class Transaction
      * @ORM\Column(name="isFlagged", type="boolean")
      */
     private $isFlagged;
+    
+    /**
+     * @var boolean
+     * 
+     * @ORM\Column(type="boolean")
+     */
+    private $isExpense;
+    
+    public function __construct()
+    {
+        $this->isFlagged = false;
+        $this->account = null;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+        $this->isExpense = true;
+        //return parent::__construct();
+    }
 
 
     /**
@@ -270,5 +287,16 @@ class Transaction
     public function getIsFlagged()
     {
         return $this->isFlagged;
+    }
+    
+    public function setIsExpense($isExpense)
+    {
+        $this->isExpense = $isExpense;
+        return $this;
+    }
+    
+    public function getIsExpense()
+    {
+        return $this->isExpense;
     }
 }
