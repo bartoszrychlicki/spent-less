@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Transaction
@@ -25,6 +27,8 @@ class Transaction
      * @var float
      *
      * @ORM\Column(name="amount", type="float")
+     * @Assert\GreaterThan(value=0)
+     * @Assert\NotNull
      */
     private $amount;
 
@@ -46,6 +50,7 @@ class Transaction
      * @var Category
      *
      * @ORM\ManyToOne(targetEntity="Category")
+     * @Assert\NotNull
      */
     private $category;
 

@@ -23,7 +23,7 @@
                 <td><a href="{{ path('transaction_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.amount }}</td>
-                <td>{% if entity.category != null %}{{ entity.category.name }}{% else %}null{% endif %}</td>
+                <td>{% if entity.category != null %}{{ entity.category.name }}{% else %}brak kategorii{% endif %}</td>
                 <td>{{ entity.memo }}</td>
                 <td>{{ entity.payee }}</td>
                 <td>{{ entity.account }}</td>
