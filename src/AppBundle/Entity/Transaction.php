@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DoctrineExtensions\Taggable\Taggable;
 
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\TransactionRepository")
  */
-class Transaction
+class Transaction implements Taggable
 {
     /**
      * @var integer
@@ -89,6 +90,8 @@ class Transaction
      * @ORM\Column(type="boolean")
      */
     private $isExpense;
+    
+    private $tags;
     
     public function __construct()
     {
@@ -305,4 +308,21 @@ class Transaction
     {
         return $this->isExpense;
     }
+    
+    public function getTags()
+    {
+        $this->tags = $this->tags ?: new ArrayCollection();
+
+        return $this->tags;
+    }
+
+    public function getTaggableType()
+    {
+        return 'acme_tag';
+    }
+
+    public function getTaggableId()
+    {
+        return $this->getId();
+    }    
 }

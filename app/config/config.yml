@@ -89,3 +89,8 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fpn_tag:
+    model:
+        tag_class:     AppBundle\Entity\Tag
+        tagging_class: AppBundle\Entity\Tagging
