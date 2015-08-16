@@ -29,6 +29,7 @@ class Transaction
      * @ORM\Column(name="amount", type="float")
      * @Assert\GreaterThan(value=0)
      * @Assert\NotNull
+     * @Assert\Type(type="numeric")
      */
     private $amount;
 
@@ -57,21 +58,21 @@ class Transaction
     /**
      * @var string
      *
-     * @ORM\Column(name="memo", type="text")
+     * @ORM\Column(name="memo", type="text", nullable=true)
      */
     private $memo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="payee", type="string", length=255)
+     * @ORM\Column(name="payee", type="string", length=255, nullable=true)
      */
     private $payee;
 
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="account", type="object")
+     * @ORM\Column(name="account", type="object", nullable=true)
      */
     private $account;
 

@@ -3,7 +3,7 @@
 {% block body -%}
     <h1>Transaction list</h1>
 
-    <table class="records_list">
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>Id</th>
@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
+            <tr class="{% if entity.isExpense == true %}danger{% else %}success{% endif %}">
                 <td><a href="{{ path('transaction_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.amount }}</td>
@@ -42,12 +42,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('transaction_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

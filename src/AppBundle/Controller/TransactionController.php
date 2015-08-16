@@ -29,7 +29,7 @@ class TransactionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Transaction')->findAll();
+        $entities = $em->getRepository('AppBundle:Transaction')->findAllOrderedByDate();
 
         return array(
             'entities' => $entities,

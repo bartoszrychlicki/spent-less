@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class TransactionRepository extends EntityRepository
 {
+    function findAllOrderedByDate()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Transaction t ORDER BY t.createdAt DESC'
+            )
+            ->getResult();
+    }
 }

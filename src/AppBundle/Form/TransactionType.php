@@ -16,13 +16,18 @@ class TransactionType extends AbstractType
     {
         $builder
             ->add('isExpense')
-            ->add('amount')
+            ->add('amount', 'money', array(
+                'currency' => 'PLN',
+                'attr' => array('tab-order'=> 0)
+                ))
             ->add('createdAt')
-            ->add('updatedAt')
             ->add('memo')
             ->add('payee')
             ->add('account')
-            ->add('isFlagged')
+            ->add('isFlagged', 'checkbox', array(
+                'label'    => 'Oflagować?',
+                'required' => false,
+                ))
             ->add('category')
         ;
     }
