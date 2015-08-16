@@ -28,8 +28,14 @@ class CategoryController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $tagManager = $this->get('fpn_tag.tag_manager');
 
-        $entities = $em->getRepository('AppBundle:Category')->findAll();
+        $entities = [];
+        
+        foreach($em->getRepository('AppBundle:Category')->findAll() as $row) {
+            $tagManager->loadTagging($row);
+            $entities[] = $row;
+        }
 
         return array(
             'entities' => $entities,

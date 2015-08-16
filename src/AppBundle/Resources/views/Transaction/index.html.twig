@@ -11,6 +11,7 @@
                 <th>Amount</th>
                 <th>Category</th>
                 <th>Memo</th>
+                <th>Tags</th>
                 <th>Payee</th>
                 <th>Account</th>
                 <th>Is flagged</th>
@@ -25,6 +26,11 @@
                 <td>{{ entity.amount }}</td>
                 <td>{% if entity.category != null %}{{ entity.category.name }}{% else %}brak kategorii{% endif %}</td>
                 <td>{{ entity.memo }}</td>
+                <td>
+                    {% for tag in entity.tags %}
+                        <li>{{ tag.name }}</li>
+                    {% endfor %}
+                </td>
                 <td>{{ entity.payee }}</td>
                 <td>{{ entity.account }}</td>
                 <td>{{ entity.isFlagged }}</td>

@@ -21,6 +21,10 @@ class TransactionType extends AbstractType
                 'attr' => array('tab-order'=> 0)
                 ))
             ->add('createdAt')
+            ->add('tags', 'text', array(
+                'required' => true,
+                'mapped'   => false,
+                ))
             ->add('memo')
             ->add('payee')
             ->add('account')

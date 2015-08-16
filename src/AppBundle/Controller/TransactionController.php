@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Transaction;
 use AppBundle\Form\TransactionType;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Transaction controller.
@@ -28,9 +29,14 @@ class TransactionController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $tagManager = $this->get('fpn_tag.tag_manager');
 
-        $entities = $em->getRepository('AppBundle:Transaction')->findAllOrderedByDate();
-
+        $entities = new ArrayCollection();
+        foreach($em->getRepository('AppBundle:Transaction')->findAllOrderedByDate() as $row) {
+            $tagManager->loadTagging($row);
+            $entities->add($row);
+        }
+        
         return array(
             'entities' => $entities,
         );
@@ -50,9 +56,22 @@ class TransactionController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $tagManager = $this->get('fpn_tag.tag_manager');
+            //create or load tags
+            $tags = $form->get("tags")->getData();
+
+            // Load or create a list of tags
+            $tagNames = $tagManager->splitTagNames($tags);
+            $tags = $tagManager->loadOrCreateTags($tagNames);
+
+            // Add a list of tags on your taggable resource..
+            $tagManager->addTags($tags, $entity);
+
             $em->persist($entity);
             $em->flush();
 
+            $tagManager->saveTagging($entity);
+            $tagManager->loadTagging($entity);
             return $this->redirect($this->generateUrl('transaction_show', array('id' => $entity->getId())));
         }
 
@@ -140,9 +159,21 @@ class TransactionController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Transaction entity.');
         }
-
+        $tagManager = $this->get('fpn_tag.tag_manager');
+        $tagManager->loadTagging($entity);
+        
         $editForm = $this->createEditForm($entity);
+        $tags = join(', ', $entity->getTags()->map(
+                function($row) {
+                    return $row->getName();
+                }
+            )->toArray()
+            );
+            
+        $editForm->get('tags')->setData($tags);
+        //var_dump($editForm); exit();
         $deleteForm = $this->createDeleteForm($id);
+
 
         return array(
             'entity'      => $entity,
@@ -191,8 +222,20 @@ class TransactionController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $tagManager = $this->get('fpn_tag.tag_manager');
+            //create or load tags
+            $tags = $editForm->get("tags")->getData();
+
+            // Load or create a list of tags
+            $tagNames = $tagManager->splitTagNames($tags);
+            $tags = $tagManager->loadOrCreateTags($tagNames);
+
+            // Add a list of tags on your taggable resource..
+            $tagManager->addTags($tags, $entity);
+
             $em->flush();
 
+            $tagManager->saveTagging($entity);
             return $this->redirect($this->generateUrl('transaction_edit', array('id' => $id)));
         }
 
