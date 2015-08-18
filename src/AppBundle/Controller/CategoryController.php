@@ -30,13 +30,8 @@ class CategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
         $tagManager = $this->get('fpn_tag.tag_manager');
 
-        $entities = [];
+        $entities = $em->getRepository('AppBundle:Category')->findAll();
         
-        foreach($em->getRepository('AppBundle:Category')->findAll() as $row) {
-            $tagManager->loadTagging($row);
-            $entities[] = $row;
-        }
-
         return array(
             'entities' => $entities,
         );
