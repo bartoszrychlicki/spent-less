@@ -72,7 +72,7 @@ class TransactionController extends Controller
 
             $tagManager->saveTagging($entity);
             $tagManager->loadTagging($entity);
-            return $this->redirect($this->generateUrl('transaction_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('transaction'));
         }
 
         return array(

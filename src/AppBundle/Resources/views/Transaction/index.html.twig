@@ -1,21 +1,21 @@
 {% extends '::base.html.twig' %}
-
+{% block title %}Transakcje{% endblock %}
 {% block body -%}
-    <h1>Transaction list</h1>
+    <h1>Lista transkacji</h1>
 
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Created at</th>
-                <th>Amount</th>
-                <th>Category</th>
+                <th>Data</th>
+                <th>Kwota</th>
+                <th>Kategoria</th>
                 <th>Memo</th>
-                <th>Tags</th>
-                <th>Payee</th>
-                <th>Account</th>
-                <th>Is flagged</th>
-                <th>Actions</th>
+                <th>Tagi</th>
+                <th>Wydano u</th>
+                <th>Konto</th>
+                <th>Oznaczenie</th>
+                <th>Opcje</th>
             </tr>
         </thead>
         <tbody>

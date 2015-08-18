@@ -54,7 +54,7 @@ class CategoryController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('categories_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('categories'));
         }
 
         return array(
