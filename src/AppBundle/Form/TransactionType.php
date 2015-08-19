@@ -24,12 +24,14 @@ class TransactionType extends AbstractType
     {
         $builder
             ->add('isExpense')
-            ->add('category', 'choice', array(
-                'choices' => $this->formOptions['em']->getRepository('AppBundle\Entity\Category')->getCategoriesAsTree()
-                ))
+            ->add('category'
+                //, 'choice', array(
+                //'choices' => $this->formOptions['em']->getRepository('AppBundle\Entity\Category')->getCategoriesAsTree())
+                
+                )
             ->add('amount', 'money', array(
                 'currency' => 'PLN',
-                'attr' => array('tab-order'=> 0)
+                'attr' => array('tab-order'=> 0, 'type' => 'number')
                 ))
             ->add('tags', 'text', array(
                 'required' => true,
