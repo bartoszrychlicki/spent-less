@@ -6,6 +6,11 @@
         <div class="col-md-4 jumbotron"><p class="text-success">Zarobiłeś {{ incomeSum|number_format(2, ',',' ') }} PLN</p></div>
         <div class="col-md-4 jumbotron"><p class="text-primary">Bilans {{ balance|number_format(2, ',',' ') }} PLN</p></div>
     </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            {{ month }} / {{ year }}
+        </div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead>
             <tr>

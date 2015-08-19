@@ -33,7 +33,14 @@ class TransactionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $tagManager = $this->get('fpn_tag.tag_manager');
-
+        
+        if($month == 'current') {
+            $month = date("m");
+        }
+        if($year == 'current') {
+            $year = date('Y');
+        }
+        
         $entities = new ArrayCollection();
         
         $expenseSum = 0;
@@ -57,7 +64,9 @@ class TransactionController extends Controller
             'expenseSum' => $expenseSum,
             'incomeSum' => $incomeSum,
             'balance' => $balance,
-            'status' => $this->_getStatus($balance)
+            'status' => $this->_getStatus($balance),
+            'month' => $month,
+            'year' => $year
         );
     }
     
