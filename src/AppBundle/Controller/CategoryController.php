@@ -56,6 +56,7 @@ class CategoryController extends Controller
 
             return $this->redirect($this->generateUrl('categories'));
         }
+        
 
         return array(
             'entity' => $entity,

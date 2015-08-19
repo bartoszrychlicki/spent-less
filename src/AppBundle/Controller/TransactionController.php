@@ -90,7 +90,10 @@ class TransactionController extends Controller
      */
     private function createCreateForm(Transaction $entity)
     {
-        $form = $this->createForm(new TransactionType(), $entity, array(
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(new TransactionType(array(
+            'em' => $em)
+            ), $entity, array(
             'action' => $this->generateUrl('transaction_create'),
             'method' => 'POST',
         ));

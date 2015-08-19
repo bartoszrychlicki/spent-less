@@ -5,9 +5,17 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use AppBundle\Entity\Category;
 
 class TransactionType extends AbstractType
 {
+    
+    private $formOptions;
+    
+    public function __construct($options = array()){        
+        $this->formOptions = $options;
+    }
+    
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -16,7 +24,9 @@ class TransactionType extends AbstractType
     {
         $builder
             ->add('isExpense')
-            ->add('category')
+            ->add('category', 'choice', array(
+                'choices' => $this->formOptions['em']->getRepository('AppBundle\Entity\Category')->getCategoriesAsTree()
+                ))
             ->add('amount', 'money', array(
                 'currency' => 'PLN',
                 'attr' => array('tab-order'=> 0)
