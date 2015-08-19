@@ -12,12 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class TransactionRepository extends EntityRepository
 {
-    function findAllOrderedByDate()
+    function findAllOrderedByDate($month = 'current', $year = 'current')
     {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT t FROM AppBundle:Transaction t ORDER BY t.createdAt DESC'
-            )
-            ->getResult();
+        if($month == 'current') {
+            $month = date("m");
+        }
+        if($year == 'current') {
+            $year = date('Y');
+        }
+        $fromDate   = \DateTime::createFromFormat('j-m-Y H:i:s', '1-'.$month.'-'.$year.' 00:00:01');
+        $endDayOfTheMonth = date("t");
+        $toDate     = \DateTime::createFromFormat('j-m-Y H:i:s', $endDayOfTheMonth.'-'.$month.'-'.$year.' 00:00:01');
+
+        $query = $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->where('t.createdAt >= :from_date and t.createdAt <= :to_date')
+            ->setParameter('from_date', $fromDate)
+            ->setParameter('to_date', $toDate)
+            ->getQuery();
+        
+        return $query->getResult();
     }
 }

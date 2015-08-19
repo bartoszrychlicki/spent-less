@@ -1,6 +1,3 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
-contact:
-    path:     /
-    defaults: { _controller: AppBundle:Transaction:index }

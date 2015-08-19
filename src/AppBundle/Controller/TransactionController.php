@@ -22,11 +22,14 @@ class TransactionController extends Controller
     /**
      * Lists all Transaction entities.
      *
-     * @Route("/", name="transaction")
+     * @Route("/{month}/{year}", name="transaction", defaults={"month" = "current", "year" = "current"}, requirements={
+     *      "month": "\d+",
+     *      "year": "\d+"
+     * })
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($month, $year)
     {
         $em = $this->getDoctrine()->getManager();
         $tagManager = $this->get('fpn_tag.tag_manager');
@@ -35,7 +38,7 @@ class TransactionController extends Controller
         
         $expenseSum = 0;
         $incomeSum = 0;
-        foreach($em->getRepository('AppBundle:Transaction')->findAllOrderedByDate() as $row) {
+        foreach($em->getRepository('AppBundle:Transaction')->findAllOrderedByDate($month, $year) as $row) {
             $tagManager->loadTagging($row);
             $entities->add($row);
             if ($row->getIsExpense() == true) {
