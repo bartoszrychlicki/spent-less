@@ -40,8 +40,8 @@ class TransactionType extends AbstractType
                 'required' => false,
                 ))
             ->add('createdAt')
-            ->add('memo')
             ->add('payee')
+            ->add('memo')
             ->add('account')
 
         ;

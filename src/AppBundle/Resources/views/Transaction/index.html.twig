@@ -23,7 +23,7 @@
             <tr class="{% if entity.isExpense == true %}danger{% else %}success{% endif %}">
                 <td><a href="{{ path('transaction_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.amount }}</td>
+                <td>{{ entity.amount|number_format(2, ',',' ') }} PLN</td>
                 <td>{% if entity.category != null %}{{ entity.category.name }}{% else %}brak kategorii{% endif %}</td>
                 <td>{{ entity.memo }}</td>
                 <td>
