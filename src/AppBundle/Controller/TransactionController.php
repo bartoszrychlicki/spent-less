@@ -32,13 +32,19 @@ class TransactionController extends Controller
         $tagManager = $this->get('fpn_tag.tag_manager');
 
         $entities = new ArrayCollection();
+        
+        $expenseSum = 0;
         foreach($em->getRepository('AppBundle:Transaction')->findAllOrderedByDate() as $row) {
             $tagManager->loadTagging($row);
             $entities->add($row);
+            if ($row->getIsExpense() == true) {
+                $expenseSum = $expenseSum + $row->getAmount();
+            }
         }
         
         return array(
             'entities' => $entities,
+            'expenseSum' => $expenseSum
         );
     }
     /**
