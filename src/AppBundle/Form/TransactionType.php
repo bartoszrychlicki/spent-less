@@ -6,15 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Entity\Category;
+use Doctrine\ORM\EntityRepository;
 
 class TransactionType extends AbstractType
 {
-    
-    private $formOptions;
-    
-    public function __construct($options = array()){        
-        $this->formOptions = $options;
-    }
     
     /**
      * @param FormBuilderInterface $builder
@@ -24,25 +19,29 @@ class TransactionType extends AbstractType
     {
         $builder
             ->add('isExpense')
-            ->add('category'
-                //, 'choice', array(
-                //'choices' => $this->formOptions['em']->getRepository('AppBundle\Entity\Category')->getCategoriesAsTree())
-                
-                )
+            ->add('category', 'entity', array(
+                    'group_by' => 'masterCategory.name',
+                    'class'     => 'AppBundle\Entity\Category',
+                    'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('c')
+                                      ->orderBy('c.name', 'ASC')
+                                      ->where('c.masterCategory is not NULL');
+                            }
+                ))
             ->add('amount', 'money', array(
                 'currency' => 'PLN',
                 'attr' => array('tab-order'=> 0, 'type' => 'number')
                 ))
             ->add('tags', 'text', array(
-                'required' => true,
+                'required' => false,
                 'mapped'   => false,
                 ))
             ->add('isFlagged', 'checkbox', array(
                 'label'    => 'Oflagować?',
                 'required' => false,
                 ))
-            ->add('createdAt')
             ->add('payee')
+            ->add('createdAt')
             ->add('memo')
             ->add('account')
 

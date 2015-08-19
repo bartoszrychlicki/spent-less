@@ -97,9 +97,7 @@ class TransactionController extends Controller
     private function createCreateForm(Transaction $entity)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new TransactionType(array(
-            'em' => $em)
-            ), $entity, array(
+        $form = $this->createForm(new TransactionType(), $entity, array(
             'action' => $this->generateUrl('transaction_create'),
             'method' => 'POST',
         ));
@@ -245,7 +243,7 @@ class TransactionController extends Controller
             $em->flush();
 
             $tagManager->saveTagging($entity);
-            return $this->redirect($this->generateUrl('transaction_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('transaction'));
         }
 
         return array(
