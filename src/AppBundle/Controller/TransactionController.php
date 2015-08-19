@@ -34,17 +34,24 @@ class TransactionController extends Controller
         $entities = new ArrayCollection();
         
         $expenseSum = 0;
+        $incomeSum = 0;
         foreach($em->getRepository('AppBundle:Transaction')->findAllOrderedByDate() as $row) {
             $tagManager->loadTagging($row);
             $entities->add($row);
             if ($row->getIsExpense() == true) {
                 $expenseSum = $expenseSum + $row->getAmount();
+            } elseif($row->getIsExpense() == false) {
+                $incomeSum = $incomeSum + $row->getAmount();
             }
         }
         
+        $balance = $incomeSum - $expenseSum;
+        
         return array(
             'entities' => $entities,
-            'expenseSum' => $expenseSum
+            'expenseSum' => $expenseSum,
+            'incomeSum' => $incomeSum,
+            'balance' => $balance
         );
     }
     /**

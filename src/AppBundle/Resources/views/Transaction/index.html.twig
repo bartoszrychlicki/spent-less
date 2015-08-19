@@ -1,8 +1,11 @@
 {% extends '::base.html.twig' %}
 {% block title %}Transakcje{% endblock %}
 {% block body -%}
-    <h1>Lista transkacji</h1>
-
+    <div class="row">
+        <div class="col-md-4 jumbotron"><p class="text-warning">Wydałeś {{ expenseSum|number_format(2, ',',' ') }} PLN</p></div>
+        <div class="col-md-4 jumbotron"><p class="text-success">Zarobiłeś {{ incomeSum|number_format(2, ',',' ') }} PLN</p></div>
+        <div class="col-md-4 jumbotron"><p class="text-primary">Bilans {{ balance|number_format(2, ',',' ') }} PLN</p></div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
@@ -42,17 +45,5 @@
             </tr>
         {% endfor %}
         </tbody>
-        <th>
-                <th></th>
-                <th>{{ expenseSum|number_format(2, ',', '') }} PLN</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-        </th>
     </table>
     {% endblock %}
