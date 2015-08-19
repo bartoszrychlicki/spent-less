@@ -47,13 +47,33 @@ class TransactionController extends Controller
         
         $balance = $incomeSum - $expenseSum;
         
+
+        
         return array(
             'entities' => $entities,
             'expenseSum' => $expenseSum,
             'incomeSum' => $incomeSum,
-            'balance' => $balance
+            'balance' => $balance,
+            'status' => $this->_getStatus($balance)
         );
     }
+    
+    private function _getStatus($balance)
+    {
+        $level = 'info';
+        if ($balance < 0) {
+            $message =  'W tym okresie wydajesz więcej niż zarobiłeś. Zwolnij!';
+            $level = 'danger';
+        } else if ($balance == 0) {
+            $message =  'Wydajesz dokładnie tyle ile zarabiasz. Spróbuj wydać troche mniej aby zarobic.';
+            $level = 'warning';
+        } else if ($balance > 0) {
+            $message =  'Dobra robota! Wydajesz mniej niż zarabiasz. Możesz się poklepać po ramieniu i nagrodzić.';
+            $level = 'success';
+        }
+        return array('message' => $message, 'level' => $level);
+    }
+    
     /**
      * Creates a new Transaction entity.
      *
