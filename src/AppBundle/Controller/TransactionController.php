@@ -141,7 +141,7 @@ class TransactionController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Dodaj', 'attr' => array('class' => 'btn-lg btn-block', 'role' => 'button')));
 
         return $form;
     }
