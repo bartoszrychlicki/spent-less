@@ -1,8 +1,19 @@
 {% extends '::base.html.twig' %}
 {% block title %}Nowa transakcja{% endblock %}
+
+
 {% block body -%}
     <h1>Nowa transakcja</h1>
-
+    
+    <div class="btn-group btn-group-justified" data-toggle="buttons">
+      <label class="btn btn-primary btn-warning active">
+        <input type="radio" name="isExpense" id="switch_expense" autocomplete="off" checked> Wydatek
+      </label>
+      <label class="btn btn-primary">
+        <input type="radio" name="isExpense" id="switch_income" autocomplete="off"> Przychód
+      </label>
+    </div>
+    
     {{ form(form) }}
 
 {% endblock %}

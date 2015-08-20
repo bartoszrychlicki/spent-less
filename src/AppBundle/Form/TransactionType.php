@@ -18,7 +18,18 @@ class TransactionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('isExpense')
+            ->add('isExpense', 'choice', array(
+                'choices' => array(
+                    '1'   => 'Wydatek',
+                    '0'   => 'Przychód',
+                ),
+                'multiple' => false,
+                'expanded' => true,
+                'label'     => false,
+                'attr'      => array(
+                    'class' => 'hidden'
+                    )
+                ))
             ->add('category', 'entity', array(
                     'group_by' => 'masterCategory.name',
                     'class'     => 'AppBundle\Entity\Category',

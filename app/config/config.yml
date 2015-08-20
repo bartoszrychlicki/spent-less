@@ -37,7 +37,6 @@ twig:
     strict_variables: "%kernel.debug%"
 
 
-
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"

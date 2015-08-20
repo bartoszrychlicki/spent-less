@@ -54,7 +54,13 @@
     <script src="{{ asset('js/jquery.js') }}"></script>
     <!-- Include all JavaScripts, compiled by Assetic -->
     <script src="{{ asset('js/bootstrap.js') }}"></script>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        {% javascripts
+            '@AppBundle/Resources/public/js/*'
+        %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
     
 </body>
 </html>
