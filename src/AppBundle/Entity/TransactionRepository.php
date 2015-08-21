@@ -26,6 +26,7 @@ class TransactionRepository extends EntityRepository
 
         $query = $this->createQueryBuilder('t')
             ->orderBy('t.createdAt', 'DESC')
+            ->addOrderBy('t.id', 'DESC')
             ->where('t.createdAt >= :from_date and t.createdAt <= :to_date')
             ->setParameter('from_date', $fromDate)
             ->setParameter('to_date', $toDate)
