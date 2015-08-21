@@ -35,3 +35,5 @@ assetic:
     use_controller: true
     bundles:        [ ]
     #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
