@@ -6,4 +6,4 @@ root:
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: transaction
-        permanent: true    
+        permanent: true
