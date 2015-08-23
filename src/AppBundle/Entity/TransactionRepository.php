@@ -20,12 +20,13 @@ class TransactionRepository extends EntityRepository
         if($year == 'current') {
             $year = date('Y');
         }
-        $fromDate   = \DateTime::createFromFormat('j-m-Y H:i:s', '1-'.$month.'-'.$year.' 00:00:01');
+        $fromDate   = \DateTime::createFromFormat('j-m-Y H:i:s', '1-'.$month.'-'.$year.' 00:00:00');
         $endDayOfTheMonth = date("t");
-        $toDate     = \DateTime::createFromFormat('j-m-Y H:i:s', $endDayOfTheMonth.'-'.$month.'-'.$year.' 00:00:01');
+        $toDate     = \DateTime::createFromFormat('j-m-Y H:i:s', $endDayOfTheMonth.'-'.$month.'-'.$year.' 23:59:59');
 
         $query = $this->createQueryBuilder('t')
             ->orderBy('t.createdAt', 'DESC')
+            ->addOrderBy('t.id', 'DESC')
             ->where('t.createdAt >= :from_date and t.createdAt <= :to_date')
             ->setParameter('from_date', $fromDate)
             ->setParameter('to_date', $toDate)
