@@ -71,7 +71,7 @@ class TransactionRepository extends EntityRepository
             ->addSelect('c.name')
             //->addSelect('c')
             ->leftJoin('t.category','c')
-            //->where('t.createdAt >= :from_date and t.createdAt <= :to_date')
+            ->where('t.isExpense = 1')
             ->groupBy('t.category')
             ->orderBy('sum_category', 'DESC')
             ->getQuery();
