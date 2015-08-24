@@ -34,4 +34,49 @@ class TransactionRepository extends EntityRepository
         
         return $query->getResult();
     }
+    
+    /**
+     * If fromDate is null it takes the earliest tranaction.
+     * if toDate is null is takes the latest transaction.
+     */
+    function getAvgDailyAmount(\DateTime $fromDate = null, \DateTime $toDate = null, $isExpense = 1) {
+        $query = $this->createQueryBuilder('t')
+            ->select('SUM(t.amount) as sum_amount')
+            ->addSelect('MIN(t.createdAt as date_start')
+            //->where('t.createdAt >= :from_date and t.createdAt <= :to_date')
+            ->where('t.isExpense = ?1')
+            ->setParameter(1, $isExpense)
+            //->setParameter('from_date', $fromDate)
+            //->setParameter('to_date', $toDate)
+            ->getQuery();
+        
+        $result = $query->getSingleResult();
+        
+        // caluclate days amount
+        $now = time(); // or your date as well
+        $your_date = strtotime($result['date_start']);
+        $datediff = $now - $your_date;
+        $daysAmount = floor($datediff/(60*60*24));
+        return array(
+            'avg_daily_expense' => $result['sum_amount']/$daysAmount,
+            'start_from'        => $result['date_start'],
+            'days_count'        => $daysAmount
+            );
+    }
+    
+    public function getCategorySpendings(\DateTime $fromDate = null, \DateTime $toDate = null) 
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('SUM(t.amount) as sum_category')
+            ->addSelect('c.name')
+            //->addSelect('c')
+            ->leftJoin('t.category','c')
+            //->where('t.createdAt >= :from_date and t.createdAt <= :to_date')
+            ->groupBy('t.category')
+            ->orderBy('sum_category', 'DESC')
+            ->getQuery();
+            
+        return $result = $query->getResult();
+        
+    }
 }

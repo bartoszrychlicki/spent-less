@@ -3,13 +3,35 @@
 {% block title %}Statystyki{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Statistics:index page</h1>
+<h1>Statystyki</h1>
 <dl>
     <dt>
         Średnie dzienne wydatki
     </dt>
     <dd>
-        {{ avgDailyExpense }}
+        {{ avgDailyExpenses.avg_daily_expense|number_format(2, ',',' ') }} PLN.<br>
+        Licząć od {{ avgDailyExpenses.start_from }}.
+        No. dni: {{ avgDailyExpenses.days_count }}.
+    </dd>
+    <dt>
+        Wydatki w kategoriach
+    </dt>
+    <dd>
+        <table class="table">
+            <thead>
+                <th>Nazwa kategorii</th>
+                <th>Kwota PLN</th>
+            </thead>
+            <tbody>
+                {% for row in categorySpendings%}
+                <tr>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.sum_category|number_format(2, ',',' ') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+                
+        </table>
     </dd>
 </dl>
 {% endblock %}
