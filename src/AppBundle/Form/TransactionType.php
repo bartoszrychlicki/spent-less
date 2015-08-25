@@ -37,7 +37,8 @@ class TransactionType extends AbstractType
                             return $er->createQueryBuilder('c')
                                       ->orderBy('c.name', 'ASC')
                                       ->where('c.masterCategory is not NULL');
-                            }
+                            },
+                    'preferred_choices' => array('2'),
                 ))
             ->add('amount', 'money', array(
                 'currency' => 'PLN',
