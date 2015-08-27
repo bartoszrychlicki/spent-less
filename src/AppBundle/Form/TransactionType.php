@@ -15,7 +15,9 @@ class TransactionType extends AbstractType
     public function __construct(array $options = null) 
     {
         $this->options['preferred_choices'] = array();
-        $this->options = $options;
+        if($options != null) {
+            $this->options = $options;
+        }
         
     }
     

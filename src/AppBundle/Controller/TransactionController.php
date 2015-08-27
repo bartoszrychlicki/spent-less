@@ -145,7 +145,15 @@ class TransactionController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Dodaj', 'attr' => array('class' => 'btn-lg btn-block', 'role' => 'button')));
+        $form->add('submit', 'submit', array(
+            'label' => 'Dodaj', 
+            'attr' => array(
+                'class' => 'btn-lg btn-block', 
+                'role' => 'button',
+                'data-loading-text' => 'Dodaje...'
+                )
+            )
+        );
 
         return $form;
     }
@@ -241,7 +249,12 @@ class TransactionController extends Controller
     */
     private function createEditForm(Transaction $entity)
     {
-        $form = $this->createForm(new TransactionType(), $entity, array(
+        $em = $this->getDoctrine()->getManager();
+
+        // options for form
+        $options = array();
+        $options['preferred_choices'] = $em->getRepository('AppBundle:Category')->getMostPopularCategories(true, 3);
+        $form = $this->createForm(new TransactionType($options), $entity, array(
             'action' => $this->generateUrl('transaction_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
