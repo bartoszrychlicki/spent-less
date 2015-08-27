@@ -136,7 +136,12 @@ class TransactionController extends Controller
     private function createCreateForm(Transaction $entity)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new TransactionType(), $entity, array(
+        
+        // options for form
+        $options = array();
+        $options['preferred_choices'] = $em->getRepository('AppBundle:Category')->getMostPopularCategories(true, 3);
+        dump($options);
+        $form = $this->createForm(new TransactionType($options), $entity, array(
             'action' => $this->generateUrl('transaction_create'),
             'method' => 'POST',
         ));

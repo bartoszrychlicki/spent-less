@@ -10,6 +10,14 @@ use Doctrine\ORM\EntityRepository;
 
 class TransactionType extends AbstractType
 {
+    private $options;
+    
+    public function __construct(array $options = null) 
+    {
+        $this->options['preferred_choices'] = array();
+        $this->options = $options;
+        
+    }
     
     /**
      * @param FormBuilderInterface $builder
@@ -38,7 +46,7 @@ class TransactionType extends AbstractType
                                       ->orderBy('c.name', 'ASC')
                                       ->where('c.masterCategory is not NULL');
                             },
-                    'preferred_choices' => array('2'),
+                    'preferred_choices' => $this->options['preferred_choices']
                 ))
             ->add('amount', 'money', array(
                 'currency' => 'PLN',

@@ -34,6 +34,13 @@ class Category
      * @ORM\ManyToOne(targetEntity="Category")
      */
     private $masterCategory;
+    
+    /**
+     * 
+      * @ORM\OneToMany(targetEntity="Transaction", mappedBy="category")
+      * 
+      */
+    private $transactions;
 
 
     /**
