@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Transaction;
 use AppBundle\Form\TransactionType;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Transaction controller.
  *
@@ -140,10 +140,16 @@ class TransactionController extends Controller
         // options for form
         $options = array();
         $options['preferred_choices'] = $em->getRepository('AppBundle:Category')->getMostPopularCategories(true, 3);
+        
+        // payee list for autosuggestion
+        $payees = $em->getRepository('AppBundle:Transaction')->getPayeeList();
+
+        
         $form = $this->createForm(new TransactionType($options), $entity, array(
             'action' => $this->generateUrl('transaction_create'),
             'method' => 'POST',
         ));
+        
 
         $form->add('submit', 'submit', array(
             'label' => 'Dodaj', 
@@ -173,31 +179,6 @@ class TransactionController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Transaction entity.
-     *
-     * @Route("/{id}", name="transaction_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AppBundle:Transaction')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Transaction entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -350,4 +331,41 @@ class TransactionController extends Controller
             ->getForm()
         ;
     }
+    /**
+     * @Route("/get_payee_list", name="get_payee_list_as_json", options={"expose"=true})
+     */
+    public function getPayeeListAsJsonAction() 
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('AppBundle:Transaction');
+        
+        $payeeList = $repo->getPayeeList();
+        return new JsonResponse($payeeList);
+    }
+    
+    /**
+     * Finds and displays a Transaction entity.
+     *
+     * @Route("/{id}", name="transaction_show")
+     * @Method("GET")
+     * @Template()
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Transaction')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Transaction entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+    
 }

@@ -15,6 +15,7 @@ class TransactionType extends AbstractType
     public function __construct(array $options = null) 
     {
         $this->options['preferred_choices'] = array();
+        $this->options['payee_list'] = array();
         if($options != null) {
             $this->options = $options;
         }
@@ -62,7 +63,12 @@ class TransactionType extends AbstractType
                 'label'    => 'Oflagować?',
                 'required' => false,
                 ))
-            ->add('payee')
+            ->add('payee', 'text', array(
+                'attr'  => array(
+                    'placeholder' => 'Payee',
+                    //'class' => 'typeform',
+                    )
+                ))
             ->add('createdAt')
             ->add('memo')
             ->add('account')

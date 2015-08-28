@@ -79,4 +79,20 @@ class TransactionRepository extends EntityRepository
         return $result = $query->getResult();
         
     }
+
+    public function getPayeeList()
+    {
+            $query = $this->createQueryBuilder('t')
+            ->select('DISTINCT t.payee')
+            ->where('t.payee is not null')
+            ->orderBy('t.payee', 'ASC')
+            ->getQuery();
+            
+        $result = $query->getArrayResult();
+        $arrayResult = array();
+        foreach($result as $payee) {
+             $arrayResult[] = $payee['payee'];
+        }
+        return $arrayResult;
+    }
 }

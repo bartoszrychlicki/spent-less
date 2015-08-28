@@ -7,3 +7,5 @@ root:
         _controller: FrameworkBundle:Redirect:redirect
         route: transaction
         permanent: true
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
