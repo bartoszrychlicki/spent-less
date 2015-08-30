@@ -58,6 +58,7 @@ class TransactionType extends AbstractType
             ->add('tags', 'text', array(
                 'required' => false,
                 'mapped'   => false,
+                
                 ))
             ->add('isFlagged', 'checkbox', array(
                 'label'    => 'Oflagować?',
@@ -65,7 +66,6 @@ class TransactionType extends AbstractType
                 ))
             ->add('payee', 'text', array(
                 'attr'  => array(
-                    'placeholder' => 'Payee',
                     //'class' => 'typeform',
                     )
                 ))

@@ -141,10 +141,6 @@ class TransactionController extends Controller
         $options = array();
         $options['preferred_choices'] = $em->getRepository('AppBundle:Category')->getMostPopularCategories(true, 3);
         
-        // payee list for autosuggestion
-        $payees = $em->getRepository('AppBundle:Transaction')->getPayeeList();
-
-        
         $form = $this->createForm(new TransactionType($options), $entity, array(
             'action' => $this->generateUrl('transaction_create'),
             'method' => 'POST',
@@ -331,8 +327,10 @@ class TransactionController extends Controller
             ->getForm()
         ;
     }
+
     /**
      * @Route("/get_payee_list", name="get_payee_list_as_json", options={"expose"=true})
+     * @Method("GET")
      */
     public function getPayeeListAsJsonAction() 
     {
@@ -342,11 +340,30 @@ class TransactionController extends Controller
         $payeeList = $repo->getPayeeList();
         return new JsonResponse($payeeList);
     }
+
+    /**
+     * @Route("/get_tags_list", name="get_tags_list_as_json", options={"expose"=true})
+     * @Method("GET")
+     */    
+    public function getTagsListAsJsonAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // tags for auto suggestions
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $return = array();
+        foreach($tags as $tag) {
+            $return[] = $tag->getName();
+        }
+        return new JsonResponse($return);
+    }
     
     /**
      * Finds and displays a Transaction entity.
      *
-     * @Route("/{id}", name="transaction_show")
+     * @Route("/{id}", name="transaction_show", requirements={
+     *     "page": "\d+"
+     * })
      * @Method("GET")
      * @Template()
      */
