@@ -32,14 +32,16 @@ class StatisticsController extends Controller
         */
         
         $em = $this->getDoctrine()->getManager();
+        
+        $transactionRepo = $em->getRepository('AppBundle:Transaction');
+        
+        // get spendings per date
 
         return array(
-            'avgDailyExpenses' => $em->getRepository('AppBundle:Transaction')->getAvgDailyAmount(),
-            'categorySpendings' => $em->getRepository('AppBundle:Transaction')->getCategorySpendings()
+            'avgDailyExpenses'  => $transactionRepo->getAvgDailyAmount(),
+            'categorySpendings' => $transactionRepo->getCategorySpendings(),
+            'expensesByDay'     => $transactionRepo->getExpensesByDay()
             );    
         
     }
-    
-    
-
 }

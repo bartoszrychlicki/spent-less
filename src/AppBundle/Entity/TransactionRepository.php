@@ -82,7 +82,7 @@ class TransactionRepository extends EntityRepository
 
     public function getPayeeList()
     {
-            $query = $this->createQueryBuilder('t')
+        $query = $this->createQueryBuilder('t')
             ->select('DISTINCT t.payee')
             ->where('t.payee is not null')
             ->orderBy('t.payee', 'ASC')
@@ -94,5 +94,33 @@ class TransactionRepository extends EntityRepository
              $arrayResult[] = $payee['payee'];
         }
         return $arrayResult;
+    }
+    
+    
+    /**
+     * Return an array of daily spendings in array of days.
+     */
+    public function getExpensesByDay(\DateTime $fromDate = null, \DateTime $toDate = null)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('SUM(t.amount) as daily_expenses_sum')
+            ->addSelect('t.createdAt')
+            ->where('t.isExpense = ?1')
+            ->groupBy('t.createdAt')
+            ->orderBy('t.createdAt')
+            ->getQuery();
+            
+        $query->setParameter(1, 1);
+        if($fromDate != null) {
+            $query->where('t.createdAt >= :from_date');
+            $query->setParameter('from_date', $fromDate);
+        }
+        
+        if($toDate != null) {
+            $query->addWhere('t.createdAt <= :to_date');
+            $query->setParameter('to_date', $toDate);
+        }
+        
+        return $result = $query->getArrayResult();
     }
 }

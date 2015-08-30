@@ -6,12 +6,18 @@
 <h1>Statystyki</h1>
 <dl>
     <dt>
+        Wykres wydawania kasy
+    </dt>
+        {{ dump(expensesByDay) }}
+    <dt>
         Średnie dzienne wydatki
     </dt>
     <dd>
         {{ avgDailyExpenses.avg_daily_expense|number_format(2, ',',' ') }} PLN.<br>
         Licząć od {{ avgDailyExpenses.start_from }}.
         No. dni: {{ avgDailyExpenses.days_count }}.
+    </dd>
+    <dd>
     </dd>
     <dt>
         Wydatki w kategoriach
