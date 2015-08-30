@@ -2,9 +2,7 @@
 {% block title %}Transakcje{% endblock %}
 {% block body -%}
     <div class="row">
-        <div class="col-md-4 jumbotron"><p class="text-warning">Wydałeś {{ expenseSum|number_format(2, ',',' ') }} PLN</p></div>
-        <div class="col-md-4 jumbotron"><p class="text-success">Zarobiłeś {{ incomeSum|number_format(2, ',',' ') }} PLN</p></div>
-        <div class="col-md-4 jumbotron"><p class="text-primary">Bilans {{ balance|number_format(2, ',',' ') }} PLN</p></div>
+        <div class="col-md-12 jumbotron"><p class="text-warning">1. Wydawać mniej niż się zarabia. 2. Płacić najpierw sobie.</p></div>
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
