@@ -73,7 +73,7 @@ class StatisticsController extends Controller
         foreach($transactionRepo->getCategorySpendings() as $category) {
             $return[] = array(
                 'label' => $category['name'],
-                'value' => $category['sum_category'],
+                'value' => ceil($category['sum_category']),
                 'color' => RandomColor::one(),
                 );
         }
