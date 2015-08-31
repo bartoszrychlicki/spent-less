@@ -4,40 +4,15 @@
 
 {% block body %}
 <h1>Statystyki</h1>
-<dl>
-    <dt>
-        Wykres wydawania kasy
-    </dt>
-        {{ dump(expensesByDay) }}
-    <dt>
-        Średnie dzienne wydatki
-    </dt>
-    <dd>
-        {{ avgDailyExpenses.avg_daily_expense|number_format(2, ',',' ') }} PLN.<br>
-        Licząć od {{ avgDailyExpenses.start_from }}.
-        No. dni: {{ avgDailyExpenses.days_count }}.
-    </dd>
-    <dd>
-    </dd>
-    <dt>
-        Wydatki w kategoriach
-    </dt>
-    <dd>
-        <table class="table">
-            <thead>
-                <th>Nazwa kategorii</th>
-                <th>Kwota PLN</th>
-            </thead>
-            <tbody>
-                {% for row in categorySpendings%}
-                <tr>
-                    <td>{{ row.name }}</td>
-                    <td>{{ row.sum_category|number_format(2, ',',' ') }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-                
-        </table>
-    </dd>
-</dl>
+
+<div class="row">
+    <div class="col-md-9">
+        <h5>Wydatki dzień po dniu</h5>
+        <canvas id="expensesByDay" width="820" height="200" data-values="{{ expensesByDayChartData_values }}" data-labels="{{ expensesByDayChartData_labels }}"></canvas>
+    </div>    
+    <div class="col-md-3">       
+        <h5>Wydatki w rozbiciu na kategorie</h5>
+        <canvas id="expensesByCategory" width="200" height="200" data-values="{{ categoryExpensesChartData }}"></canvas>
+    </div>
+</div>
 {% endblock %}

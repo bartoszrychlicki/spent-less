@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use \Colors\RandomColor;
 
 /**
  * Category controller.
@@ -39,9 +40,45 @@ class StatisticsController extends Controller
 
         return array(
             'avgDailyExpenses'  => $transactionRepo->getAvgDailyAmount(),
-            'categorySpendings' => $transactionRepo->getCategorySpendings(),
-            'expensesByDay'     => $transactionRepo->getExpensesByDay()
+            'expensesByDayChartData_labels'     => json_encode(array_keys($this->getJsonDataForDailyExpensesChart())),
+            'expensesByDayChartData_values'     => json_encode(array_values($this->getJsonDataForDailyExpensesChart())),
+            'categoryExpensesChartData'         => json_encode($this->getJsonDataForCategoryExpensesChart())
             );    
+        
+    }
+    
+    /**
+     * Fetch data for daily expenses graph. Includes two elements: labels, and values.
+     * */
+    private function getJsonDataForDailyExpensesChart()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $transactionRepo = $em->getRepository('AppBundle:Transaction');
+        $elements = $transactionRepo->getExpensesByDay();
+        
+        $return = array(); 
+        foreach($elements as $element) {
+            $return[$element['createdAt']->format("d-m-Y")] = $element['daily_expenses_sum'];
+        }
+        
+        return $return;
+    }
+    
+    private function getJsonDataForCategoryExpensesChart()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $transactionRepo = $em->getRepository('AppBundle:Transaction');
+        
+        $return = array();
+        foreach($transactionRepo->getCategorySpendings() as $category) {
+            $return[] = array(
+                'label' => $category['name'],
+                'value' => $category['sum_category'],
+                'color' => RandomColor::one(),
+                );
+        }
+        
+        return $return;
         
     }
 }
