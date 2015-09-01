@@ -8,9 +8,9 @@ $(function() {
     });
     
     // submit button change text”
-    $("form[name=appbundle_transaction]").submit(function('event') {
-        $(this).button('loading');
-        event.preventDefault();
+    $("form[name=appbundle_transaction]").submit(function(event) {
+        $("#appbundle_transaction_submit").button('loading');
+        //event.preventDefault();
     })
     
     // tags recommendation
