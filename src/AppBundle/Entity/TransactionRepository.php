@@ -123,4 +123,17 @@ class TransactionRepository extends EntityRepository
         
         return $result = $query->getArrayResult();
     }
+    
+    public function getSpendingsByMonthAndYear()
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('SUM(t.amount) as sum_month')
+            ->addSelect('CAST(t.scheduledDate as date) AS HIDDEN groupDate')
+            ->where('t.isExpense = 1')
+            ->groupBy('groupDate')
+            ->orderBy('t.createdAt', 'DESC')
+            ->getQuery();
+            
+        return $result = $query->getResult();
+    }
 }

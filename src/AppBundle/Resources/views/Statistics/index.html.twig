@@ -11,12 +11,31 @@
         <canvas id="expensesByDay" width="820" height="200" data-values="{{ expensesByDayChartData_values }}" data-labels="{{ expensesByDayChartData_labels }}"></canvas>
     </div>    
     <div class="col-md-3">       
-        <h5>Wydatki w rozbiciu na kategorie</h5>
+        Średne dzienne wydatki {{ avgDailyExpenses.avg_daily_expense|number_format }} PLN na podstawie {{ avgDailyExpenses.days_count }} dni, licząc od {{ avgDailyExpenses.start_from}}.
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">       
         <canvas id="expensesByCategory" width="200" height="200" data-values="{{ categoryExpensesChartData }}"></canvas>
     </div>
+    <h5>Wydatki w rozbiciu na kategorie</h5>
+    <div class="col-md-3">
+        <table class="table">
+        {% for row in categorySpendigs %}
+            <tr>
+                <td>
+                    {{ row.name }}
+                </td>
+                <td>
+                    {{ row.sum_category|number_format }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>    
 </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-     <script src="{{ asset('bundles/app/js/statistics/statistics.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/statistics/statistics.js') }}"></script>
 {% endblock %}

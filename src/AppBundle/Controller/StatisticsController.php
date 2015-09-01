@@ -39,10 +39,12 @@ class StatisticsController extends Controller
         // get spendings per date
 
         return array(
-            'avgDailyExpenses'  => $transactionRepo->getAvgDailyAmount(),
+            'avgDailyExpenses'                  => $transactionRepo->getAvgDailyAmount(),
             'expensesByDayChartData_labels'     => json_encode(array_keys($this->getJsonDataForDailyExpensesChart())),
             'expensesByDayChartData_values'     => json_encode(array_values($this->getJsonDataForDailyExpensesChart())),
-            'categoryExpensesChartData'         => json_encode($this->getJsonDataForCategoryExpensesChart())
+            'categoryExpensesChartData'         => json_encode($this->getJsonDataForCategoryExpensesChart()),
+            'categorySpendigs'                  => $transactionRepo->getCategorySpendings(),
+            //'monthlySpendings'                  => $transactionRepo->getSpendingsByMonthAndYear()
             );    
         
     }
