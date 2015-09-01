@@ -16,3 +16,7 @@
     </div>
 </div>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+     <script src="{{ asset('bundles/app/js/statistics/statistics.js') }}"></script>
+{% endblock %}

@@ -8,8 +8,9 @@ $(function() {
     });
     
     // submit button change text”
-    $("#appbundle_transaction_submit").on('click', function() {
+    $("form[name=appbundle_transaction]").submit(function('event') {
         $(this).button('loading');
+        event.preventDefault();
     })
     
     // tags recommendation
@@ -19,7 +20,6 @@ $(function() {
       prefetch: Routing.generate('get_tags_list_as_json')
     });
     
-    console.log(Routing.generate('get_tags_list_as_json'));
     // passing in `null` for the `options` arguments will result in the default
     // options being used
     
